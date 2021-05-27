@@ -5,6 +5,11 @@
   </header>
 
   <article class="product-detail">
+  <% if @product.quantity <= 0 %>
+
+  <span !important class="badge lable-danger" >SOLDOUT</span>
+
+  <% end%>
 
     <div class="row">
 
