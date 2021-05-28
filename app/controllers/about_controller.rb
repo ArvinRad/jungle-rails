@@ -1,6 +1,5 @@
 class AboutController < ApplicationController
 
-  def show
-    puts "it is my index"
+  def index
   end
 end
