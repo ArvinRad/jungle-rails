@@ -4,9 +4,8 @@ require 'rails_helper'
 #   pending "add some examples to (or delete) #{__FILE__}"
 # end
 
-RSpec.describe Product, type: :furniture do
+RSpec.describe Product, type: :model do
   describe 'Validations' do
-  # validation tests/examples here
   # validates :name, presence: true
   it 'returns true if property :name is present in Product table' do
     product = Product.new
