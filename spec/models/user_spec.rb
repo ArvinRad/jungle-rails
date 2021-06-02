@@ -11,22 +11,37 @@ RSpec.describe User, type: :model do
     )
   end
 
-  it 'is valid when all properties are present' do
-    expect(@user).to be_valid
+  describe 'Validations' do
+    it 'is valid when all properties are present' do
+      expect(@user).to be_valid
+    end
   end
-  it 'is valid if authetication is confirmed' do
-    expect(@user.authenticate("123456")).to be(@user)
+  describe '.authenticate_with_credentials' do
+    it 'is valid if authetication is confirmed' do
+      expect(@user.authenticate("123456")).to be(@user)
+    end
+    it 'returns false if property :password and :password_confirmation are present and different in User table' do
+      @user.password_confirmation = "124556"
+      expect(@user).not_to be_valid
+    end
+    it 'returns false if property :password and :password_confirmation are present and different in User table' do
+      expect(@user.authenticate("12556")).to be(false)
+    end
   end
-  it 'returns false if property :password and :password_confirmation are present and different in User table' do
-    @user.password_confirmation = "124556"
-    expect(@user).not_to be_valid
-  end
-  it 'returns false if property :password and :password_confirmation are present and different in User table' do
-    expect(@user.authenticate("12556")).to be(false)
-  end
-  it 'returns false if property :email is present and not unique in User table' do
-    @user.save
-    user2 = User.new(name:"Alton", password: "654321", password_confirmation: "654321", email: "test@test.com")
-    expect(user2.save).to be(false)
+  describe 'edge cases and sensivity of email' do
+    it 'returns false if property :email is present and not unique in User table' do
+      @user.save
+      user2 = User.new(name:"Alton", password: "654321", password_confirmation: "654321", email: "test@test.com")
+      expect(user2.save).to be(false)
+    end
+    it 'returns true if property :email is not sensitive regarding extra spaces' do
+      @user.email = "test@test.com  "
+      expect(@user.save).to be(true)
+    end
+    it 'returns true if property :email is nott sensitive regarding upercase' do
+      @user.save
+      user2 = User.new(name:"Alton", password: "654321", password_confirmation: "654321", email: "TEST@TEST.com")
+      expect(user2.save).to be(false)
+    end
   end
 end
