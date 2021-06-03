@@ -1,5 +1,5 @@
 <article class="product">
-<% if product.quantity <= 0 %>
+<% if product.is_soldout? %>
 
   <span class="badge lable-danger" >SOLDOUT</span>
 
